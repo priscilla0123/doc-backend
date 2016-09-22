@@ -15,6 +15,7 @@ var fileController = {
                 return;
             }
             if (stats.isFile()) {
+                console.log('ok');
                 buf = new Buffer(stats.size);
                 fs.open(path, 'r', function(err, fd) {
                     if (err) {
