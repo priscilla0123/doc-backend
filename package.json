@@ -4,7 +4,8 @@
   "description": "frontend of a markdown document system",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test":"nodemon server.js"
   },
   "repository": {
     "type": "git",

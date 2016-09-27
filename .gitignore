@@ -2,4 +2,5 @@
 /doc-frontend/*
 npm-debug.log
 /views/*
+/doc/*
 

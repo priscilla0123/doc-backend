@@ -6,7 +6,9 @@ var app = express();
    
  
 var file=require('./controller/file'); 
+var menu=require('./controller/menu'); 
 var config=require('./config/config'); 
+var bread = require('./controller/utils').bread;
 
 
 /* base config */
@@ -16,23 +18,28 @@ app.set('view engine', 'html');
 app.use(express.static('doc-frontend\\static'));
 
    
-app.get('/home', function(req, res){  
-    file.getChildren('./doc',false,function(data){ 
-        console.log(data);
-        res.render('page/welcome',{
-           data:data
-        });
-    });    
+app.get('/welcome', function(req, res){   
+    res.render('page/welcome',{
+        
+    }); 
 }); 
 
 app.get('/doc', function(req, res){  
-    file.getChildren('./doc',false,function(data){ 
-        res.render('page/home',{
-           data:data
+    console.log(bread('/a/b/c', '/doc'));
+    menu.get(function(data){ 
+        res.render('page/doc/index',{
+            nav:data.data,
+            bread:
+            {
+                title: '文件列表',
+                list: bread('/a/b/c', '/doc')
+            } 
         });
-    });    
+    },false);    
 }); 
- 
+
+
+//test 
 app.get('/view/*', function(req, res){   
     var filePath=config.docPath+req.url.split('/view/')[1]; 
     file.read(filePath,function(result){ 
