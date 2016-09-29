@@ -18,25 +18,49 @@ app.set('view engine', 'html');
 app.use(express.static('doc-frontend\\static'));
 
    
-app.get('/welcome', function(req, res){   
-    res.render('page/welcome',{
-        
-    }); 
-}); 
+ 
 
-app.get('/doc', function(req, res){  
-    console.log(bread('/a/b/c', '/doc'));
-    menu.get(function(data){ 
-        res.render('page/doc/index',{
-            nav:data.data,
-            bread:
-            {
-                title: '文件列表',
-                list: bread('/a/b/c', '/doc')
-            } 
-        });
-    },false);    
-}); 
+// app.get('/doc', function(req, res){  
+//     menu.get(function(m){  
+//         file.getChildren(m.data[0].path,false,function(table){ 
+//             res.render('page/doc/index',{
+//             nav:m.data,
+//             bread:
+//             {
+//                 title: 'Documents List',
+//                 list: bread(m.data[0].url, '/doc')
+//             },
+//             table:table.data
+//         });
+//         })
+//     },false);    
+// }); 
+
+
+// app.get('/doc/*', function(req, res){ 
+//     var currentMenu=req.originalUrl.split('/doc/')[1].split('/')[0];
+//     var currentPath='';
+//     var currentUrl='';
+//     menu.get(function(m){  
+//         m.data.forEach(function(item,i){ 
+//             if(item.name==currentMenu){
+//                 currentPath=item.path;
+//                 currentUrl=item.url;
+//             }
+//         }) 
+//         file.getChildren(currentPath,false,function(table){ 
+//             res.render('page/doc/index',{
+//                 nav:m.data,
+//                 bread:
+//                 {
+//                     title: 'Documents List',
+//                     list: bread(currentUrl, '/doc')
+//                 },
+//                 table:table.data
+//             });
+//         })
+//     },false,currentMenu);    
+// }); 
 
 
 //test 
@@ -50,6 +74,8 @@ app.get('/view/*', function(req, res){
     }) 
 });    
  
-    
+require('./config/route')(app);
+require('./config/docRoute')(app);
+  
 app.listen(config.port);    
 console.log('Listening on port',config.port); 

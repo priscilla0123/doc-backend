@@ -75,8 +75,7 @@ var fileController = {
                     var File=_this.readInfoSync(path+'/'+file);
                     File.name=file;
                     FileList.push(File); 
-                }); 
-
+                });  
                 next(resultModule(0,'', FileList));
             });
         } 

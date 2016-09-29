@@ -12,5 +12,6 @@
  module.exports={
     root:path.normalize(__dirname + '/..'),
     docPath:'./doc/',
+    basePath:'/doc/',
     port:914
  }
