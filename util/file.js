@@ -25,27 +25,42 @@ var fileController = {
                 return;
             }
             if (stats.isFile()) { 
-                buf = new Buffer(stats.size);
-                fs.open(path, 'r', function(err, fd) {
+                //buf = new Buffer(stats.size);
+
+                fs.readFile(path,'utf8',function(err,data){
                     if (err) {
                         next(resultModule(11, err));
                         return;
-                    }
-                    fs.read(fd, buf, 0, buf.length, 0, function(err, bytes) {
-                        if (err) {
-                            next(resultModule(111, err));
-                            return;
-                        }
-                        // 仅输出读取的字节
-                        if (bytes > 0) {
-                            next(resultModule(0, '', buf.slice(0, bytes).toString()));
-                        }
+                    } 
+                    next(resultModule(0, '', data));
+                     
+                })
 
-                        // 关闭文件
-                        fs.close(fd, function(err) { 
-                        });
-                    });
-                });
+                // fs.open(path, 'r', function(err, fd) {
+                //     if (err) {
+                //         next(resultModule(11, err));
+                //         return;
+                //     }
+
+                //     fs.readFile(path,'utf8',function(err,data){
+                //         console.log('data');
+                //         console.log(data);
+                //     })
+                //     fs.read(fd, buf, 0, buf.length, 0, function(err, bytes) {
+                //         if (err) {
+                //             next(resultModule(111, err));
+                //             return;
+                //         }
+                //         // 仅输出读取的字节
+                //         if (bytes > 0) {
+                //             next(resultModule(0, '', buf.slice(0, bytes).toString()));
+                //         }
+
+                //         // 关闭文件
+                //         fs.close(fd, function(err) { 
+                //         });
+                //     });
+                // });
             } else {
                 next(resultModule(2, 'path is not a file')); 
             }

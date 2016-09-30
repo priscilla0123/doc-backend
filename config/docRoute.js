@@ -14,7 +14,8 @@ module.exports = function(app) {
 
     /*文件 */
     //预览
-    app.get('/doc/ajax/file/get/:path', doc.viewFile);
+    app.get('/doc/:rootpath/viewfile/*', doc.viewFile);
+    app.get('/doc/:rootpath/viewfile', doc.viewFile);
     //编辑
     app.post('/doc/ajax/file/edit', doc.updateFile);
     //新建
@@ -24,5 +25,5 @@ module.exports = function(app) {
 
     /*目录 */
     //获取子目录
-    app.get('/doc/ajax/menu/*', doc.getMenu); 
+    app.get('/ajax/doc/menu/*', doc.getMenu); 
 };
