@@ -1,17 +1,8 @@
 /**
- * Model
- 
-File() {
-    path,
-    type,
-    name 
-}
-*/
-
-/**
  * Module dependencies.
  */
-var fs = require("fs");
+var fs = require("fs"); 
+var recursive = require('recursive-readdir');
 var resultModule = require('./utils').resultModule;
 
 /**
@@ -87,13 +78,58 @@ var fileController = {
                     return;
                 }
                 files.forEach( function (file){ 
-                    var File=_this.readInfoSync(path+'/'+file);
+                    var File=_this.readInfoSync((path+'/'+file).replace(/\/\//g,'/'));
                     File.name=file;
                     FileList.push(File); 
                 });  
                 next(resultModule(0,'', FileList));
             });
         } 
+    }, 
+    getChildFolders: function(path,recursive,next) { 
+        var folers=[]; 
+        this.getChildren(path,recursive,function(result){
+            if(result.code==0){
+                result.data.forEach(function(item,i){
+                    if(item.type=='dir'){
+                        folers.push(item);
+                    }
+                })
+                next(resultModule(0,'',folers));
+            }
+            else{
+                next(resultModule(1,result.msg));
+            }
+
+        })
+    },
+    countsubFile:function(path,next){
+        recursive(path, function (err, files) { 
+            if(err){
+                next(resultModule(1,err));
+            }else{
+                next(resultModule(0,"",files.length));
+            } 
+        });
+    } ,
+    countsubFolder:function(path){
+        var count=0;
+        var files=fs.readdirSync(path); 
+        if(files.length){
+            files.forEach( function (file){ 
+                var File=fileController.readInfoSync((path+'/'+file).replace(/\/\//g,'/'));
+                if(File.type=='dir'){
+                    count++;
+                    var sub=fileController.countsubFolder(File.path);
+                    if(sub>0){count +=sub;}  
+                }
+            });  
+            return count; 
+        }
+        else{
+            return 0;
+        } 
+         
     }
 }
 

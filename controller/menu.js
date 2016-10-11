@@ -15,7 +15,7 @@
  * Module dependencies.
  */
 var resultModule = require('./utils').resultModule;
-var file = require('./file');
+var file = require('../util/file');
 var assign = require('object.assign').getPolyfill();
 
 /**

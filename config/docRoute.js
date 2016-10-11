@@ -15,15 +15,11 @@ module.exports = function(app) {
     /*文件 */
     //预览
     app.get('/doc/:rootpath/viewfile/*', doc.viewFile);
-    app.get('/doc/:rootpath/viewfile', doc.viewFile);
-    //编辑
-    app.post('/doc/ajax/file/edit', doc.updateFile);
-    //新建
-    app.post('/doc/ajax/file/add', doc.addFile);
-    //删除
-    app.post('/doc/ajax/file/delete', doc.deleteFile);
+    app.get('/doc/:rootpath/viewfile', doc.viewFile); 
 
-    /*目录 */
-    //获取子目录
-    app.get('/ajax/doc/menu/*', doc.getMenu); 
+    /*目录 */ 
+    app.get('/ajax/doc/menu/*', doc.getMenu); //获取子目录
+    
+    app.get('/ajax/doc/file/count',doc.getFileCount);//获取子文件数量
+    app.get('/ajax/doc/folder/count',doc.getFolderCount);//获取子文件夹数量
 };

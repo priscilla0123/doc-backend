@@ -18,7 +18,16 @@ var path = require('path');
  */
 //home page
 exports.home = function(req, res, next) {
-    res.render('page/doc/home', {});
+    file.getChildFolders(config.docPath,false,function(result){
+        if(result.code==0){
+            res.render('page/doc/home', {
+                data:result.data
+            });
+        }
+        else{
+            console.log(result.msg);
+        } 
+    }) 
 };
 
 exports.index = function(req, res, next) {
@@ -38,8 +47,6 @@ exports.index = function(req, res, next) {
 exports.viewFile = function(req, res, next) {
     var arg = URL.parse(req.url, true).query;
     var filePath = req.originalUrl.split('/doc/' + req.params['rootpath'] + '/viewfile/')[1];
-    console.log('filePath');
-    console.log(req.originalUrl);
     if (filePath) {
         if (arg.view) {
             filePath = filePath.split('?')[0];
@@ -104,6 +111,38 @@ exports.getMenu = function(req, res, next) {
         }
     });
 };
+
+exports.getFileCount=function(req,res,next){
+    var path = req.query.path;
+    file.countsubFile(config.docPath +path,function(result){
+        if (result.code == 0) {
+            res.json({
+                code: 0,
+                data: result.data
+            });
+        } else {
+            res.json({
+                code: 1,
+                msg: result.msg
+            });
+        } 
+    })
+}
+exports.getFolderCount=function(req,res,next){
+    var path = req.query.path;
+    var count=file.countsubFolder(config.docPath +path); 
+    if (count >= 0) {
+        res.json({
+            code: 0,
+            data: count
+        });
+    } else {
+        res.json({
+            code: 1,
+            msg: 'error'
+        });
+    }  
+}
 
 exports.allMenu = function(req, res, next) {
     res.render('page/doc/home', {});
