@@ -44,14 +44,13 @@ exports.index = function(req, res, next) {
     })
 };
 
-exports.viewFile = function(req, res, next) {
-    var arg = URL.parse(req.url, true).query;
-    var filePath = req.originalUrl.split('/doc/' + req.params['rootpath'] + '/viewfile/')[1];
+exports.viewFile = function(req, res, next) { 
+    var arg = URL.parse(req.url, true).query; 
+    var filePath = decodeURIComponent(req.originalUrl).split('/doc/' + req.params['rootpath'] + '/viewfile/')[1];
     if (filePath) {
         if (arg.view) {
             filePath = filePath.split('?')[0];
-            file.read(config.docPath + filePath, function(result) {
-                console.log(config.docPath + filePath);
+            file.read(config.docPath + filePath, function(result) { 
                 if (result.code == 0) {
                     res.render('page/doc/detail', {
                         data: marked.parse(result.data)
@@ -67,12 +66,7 @@ exports.viewFile = function(req, res, next) {
 
             var contentType = mime[ext] || "text/plain";
 
-            res.writeHead(200, { 'Content-Type': contentType });
-
-            //response.write(file, "binary");
-
-            //response.end();
-            console.log(config.docPath + filePath)
+            res.writeHead(200, { 'Content-Type': contentType }); 
             res.sendFile(config.basePath + filePath);
             res.end();
         }
