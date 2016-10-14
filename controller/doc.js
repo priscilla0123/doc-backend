@@ -31,6 +31,7 @@ exports.home = function(req, res, next) {
 };
 
 exports.index = function(req, res, next) {
+    console.log(req.url);
     var root = req.params['rootpath'];
     menu.get(config.docPath + root, '/' + root, function(result) {
         res.render('page/doc/index', {
@@ -89,10 +90,10 @@ exports.deleteFile = function(req, res, next) {
     res.render('page/doc/home', {});
 };
 
-exports.getMenu = function(req, res, next) {
+exports.getMenu = function(req, res, next) { 
     var root = req.originalUrl.split('/ajax/doc/menu/')[1];
-    menu.get(config.docPath + root, '/' + root, function(result) {
-        if (result.code == 0) {
+    menu.get(config.docPath + root, '/' + root, function(result) { 
+        if (result.code == 0) {            
             res.json({
                 code: 0,
                 data: result.data
