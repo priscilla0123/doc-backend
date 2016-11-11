@@ -8,6 +8,13 @@
  * Expose
  */
  var utilsController={
+    result:function(code,msg,data){
+      return {
+        code:code,
+        msg:msg,
+        data:data
+      }
+    },
     resultModule:function(code,msg,data){
         return {
           code:code,

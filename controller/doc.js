@@ -5,6 +5,7 @@ var file = require('../util/file');
 var bread = require('../util/utils').bread;
 var menu = require('../util/menu');
 var config = require('../config/config');
+var commond=require('../util/cmd');
 var mime=require('../util/mimeType').types;
 
 var marked = require('marked');
@@ -17,23 +18,27 @@ var path = require('path');
  * Expose
  */
 //home page
-exports.home = function(req, res, next) {
-    file.getChildFolders(config.docPath,false,function(result){
-        if(result.code==0){
-            res.render('page/doc/home', {
-                data:result.data
-            });
-        }
-        else{
-            console.log(result.msg);
-        } 
-    }) 
+exports.home = function(req, res, next) { 
+    commond.pull(config.docPath,'test',function(pullResult){
+        file.getChildFolders(config.docPath,false,function(result){ 
+            if(result.code==0){
+                res.render('page/doc/home', {
+                    data:result.data
+                });
+                if(pullResult.code){
+                    // to do toast 文档更新失败，请刷新页面
+                }
+            }
+            else{
+                console.log(result.msg);
+            } 
+        }) 
+    }); 
 };
 
-exports.index = function(req, res, next) {
-    console.log(req.url);
+exports.index = function(req, res, next) { 
     var root = req.params['rootpath'];
-    menu.get(config.docPath + root, '/' + root, function(result) {
+    menu.get(config.docPath +'/'+ root, '/' + root, function(result) {
         res.render('page/doc/index', {
             nav: result.data,
             bread: {
@@ -78,17 +83,7 @@ exports.viewFile = function(req, res, next) {
     }
 };
 
-exports.updateFile = function(req, res, next) {
-    res.render('page/doc/home', {});
-};
-
-exports.addFile = function(req, res, next) {
-    res.render('page/doc/home', {});
-};
-
-exports.deleteFile = function(req, res, next) {
-    res.render('page/doc/home', {});
-};
+ 
 
 exports.getMenu = function(req, res, next) { 
     var root = req.originalUrl.split('/ajax/doc/menu/')[1];
@@ -109,7 +104,7 @@ exports.getMenu = function(req, res, next) {
 
 exports.getFileCount=function(req,res,next){
     var path = req.query.path;
-    file.countsubFile(config.docPath +path,function(result){
+    file.countsubFile(config.docPath +'/'+path,function(result){
         if (result.code == 0) {
             res.json({
                 code: 0,
@@ -125,7 +120,7 @@ exports.getFileCount=function(req,res,next){
 }
 exports.getFolderCount=function(req,res,next){
     var path = req.query.path;
-    var count=file.countsubFolder(config.docPath +path); 
+    var count=file.countsubFolder(config.docPath +'/'+path); 
     if (count >= 0) {
         res.json({
             code: 0,
