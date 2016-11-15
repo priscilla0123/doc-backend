@@ -66,7 +66,7 @@ var fileController = {
             return {path:path,type:'dir'};
         } 
     },
-    getChildren: function(path, recursive,next) { 
+    getChildren: function(path, recursive,next,ignoreReg) { 
         var _this=this;
         var FileList = [];
         if (recursive) {
@@ -77,7 +77,10 @@ var fileController = {
                     next(resultModule(1, err));
                     return;
                 }
-                files.forEach( function (file){ 
+                files.forEach( function (file){  
+                    if(ignoreReg&&ignoreReg.test(file)){
+                        return;
+                    }
                     var File=_this.readInfoSync((path+'/'+file).replace(/\/\//g,'/'));
                     File.name=file;
                     FileList.push(File); 
@@ -86,7 +89,7 @@ var fileController = {
             });
         } 
     }, 
-    getChildFolders: function(path,recursive,next) { 
+    getChildFolders: function(path,recursive,next,ignoreReg) { 
         var folers=[]; 
         this.getChildren(path,recursive,function(result){
             if(result.code==0){
@@ -101,7 +104,7 @@ var fileController = {
                 next(resultModule(1,result.msg));
             }
 
-        })
+        },ignoreReg)
     },
     countsubFile:function(path,next){
         recursive(path, function (err, files) { 

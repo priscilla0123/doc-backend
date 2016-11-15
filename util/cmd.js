@@ -14,7 +14,7 @@ cmdController={
     pull:function(repoDir,branch,cb){  
         exec("git checkout "+branch,{cwd: repoDir}, function(err, stdout, stderr) {
             if(!err){
-                exec("git pull origin",{cwd: repoDir}, function(err, stdout, stderr) {
+                exec("git pull origin "+branch,{cwd: repoDir}, function(err, stdout, stderr) {
                     if(!err){
                         cb(result(0,'',stdout));
                     }else{

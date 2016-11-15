@@ -32,7 +32,7 @@ exports.home = function(req, res, next) {
             else{
                 console.log(result.msg);
             } 
-        }) 
+        },/^\./) 
     }); 
 };
 
