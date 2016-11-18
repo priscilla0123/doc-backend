@@ -12,24 +12,30 @@ var result=require('../util/utils').result;
  */
 cmdController={
     pull:function(repoDir,branch,cb){  
-        exec("git checkout "+branch,{cwd: repoDir}, function(err, stdout, stderr) {
-            if(!err){
+        console.log('git pull start');
+        var _this=this;
+        _this.checkout(branch,repoDir,function(res){
+            if(!res.code){
                 exec("git pull origin "+branch,{cwd: repoDir}, function(err, stdout, stderr) {
-                    if(!err){
-                        cb(result(0,'',stdout));
+                    if(!err){ 
+                        console.log('git pull end');
+                        cb(result(0,'',stdout));                         
                     }else{
-                        console.log(stderr);
+                        console.log('git pull error:'+stderr);
                         cb(result(1,'git pull error',stderr));
                     } 
                 }) 
-            }else{
-                cb(result(1,'git checkout error',stderr)); 
-            } 
-        }) 
+            }
+            else{
+                cb(result(1,'git checkout error',res.data));
+            }
+        })     
     },
     clean:function(repoDir,cb){
+        console.log('git clean start');
         exec("git clean -fd ",{cwd: repoDir}, function(err, stdout, stderr) {
             if(!err){
+                console.log('git clean end');
                 cb(result(0,'',stdout));
             }else{
                 console.log(stderr);
@@ -38,15 +44,58 @@ cmdController={
         }) 
     },
     status:function(repoDir,cb){
-        exec("git status",{cwd: repoDir}, function(err, stdout, stderr) {
+        console.log('git status start');
+        exec("git status -s",{cwd: repoDir}, function(err, stdout, stderr) {
             if(!err){
+                console.log('git status end');
                 cb(result(0,'',stdout));
             }else{
                 console.log(stderr);
                 cb(result(1,'git status error',stderr));
             } 
         })
+    },
+    checkout:function(branch,repoDir,cb,flag){
+        console.log('git checkout start');
+        var _this=this;
+        exec("git checkout "+branch,{cwd: repoDir}, function(err, stdout, stderr) { 
+            if(!err){ 
+                console.log('git checkout end');
+                cb(result(0,'',stdout));
+            }else{ 
+                console.log(err);
+                if(err.code==128){ 
+                    rmFile('.git/index.lock',repoDir,function(res){
+                        if(!res.code){
+                            if(flag){//最多尝试2次
+                                cb(result(1,'git checkout error',res.data));
+                                return;
+                            }
+                            _this.checkout(branch,repoDir,cb,true);
+                        }
+                        else{
+                            cb(result(1,'git checkout error',res.data)); 
+                        }
+                    }) 
+                }
+                else{
+                    cb(result(1,'git checkout error',stderr)); 
+                } 
+            } 
+        }) 
     }
+}
+
+function rmFile(filename,repoDir,cb){
+    console.log('rm start');
+    exec('rm -rf '+filename,{cwd: repoDir},function(err,stdout,stderr) { 
+      if(!err){ 
+        console.log('rm end');
+            cb(result(0,'',stdout));
+        }else{ 
+            cb(result(1,'rmFile error',stderr)); 
+        }
+    });
 }
 
 module.exports = cmdController;

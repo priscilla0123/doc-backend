@@ -114,7 +114,7 @@ var fileController = {
                 next(resultModule(0,"",files.length));
             } 
         });
-    } ,
+    },
     countsubFolder:function(path){
         var count=0;
         var files=fs.readdirSync(path); 
@@ -132,7 +132,6 @@ var fileController = {
         else{
             return 0;
         } 
-         
     }
 }
 
