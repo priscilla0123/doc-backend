@@ -19,7 +19,7 @@ var path = require('path');
  */
 //home page
 exports.home = function(req, res, next) { 
-    commond.pull(config.docPath,'test',function(pullResult){
+    commond.pull(config.docPath,'master',function(pullResult){
         file.getChildFolders(config.docPath,false,function(result){ 
             if(result.code==0){
                 res.render('page/doc/home', {
@@ -56,7 +56,7 @@ exports.viewFile = function(req, res, next) {
     if (filePath) {
         if (arg.view) {
             filePath = filePath.split('?')[0];
-            file.read(config.docPath + filePath, function(result) { 
+            file.read(config.docPath + '/'+filePath, function(result) { 
                 if (result.code == 0) {
                     res.render('page/doc/detail', {
                         data: marked.parse(result.data)
