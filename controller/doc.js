@@ -3,6 +3,7 @@
  */
 var file = require('../util/file');
 var bread = require('../util/utils').bread;
+var nav = require('../util/utils').nav;
 var menu = require('../util/menu');
 var config = require('../config/config');
 var commond=require('../util/cmd');
@@ -50,7 +51,8 @@ exports.index = function(req, res, next) {
     })
 };
 
-exports.viewFile = function(req, res, next) { 
+exports.viewFile = function(req, res, next) {  
+
     var arg = URL.parse(req.url, true).query; 
     var filePath = decodeURIComponent(req.originalUrl).split('/doc/' + req.params['rootpath'] + '/viewfile/')[1];
     if (filePath) {
@@ -58,8 +60,9 @@ exports.viewFile = function(req, res, next) {
             filePath = filePath.split('?')[0];
             file.read(config.docPath + '/'+filePath, function(result) { 
                 if (result.code == 0) {
+                    nav.addTag(result.data);
                     res.render('page/doc/detail', {
-                        data: marked.parse(result.data)
+                        data: marked.parse(result.data) 
                     });
                 } else {
                     console.log(result.msg);
