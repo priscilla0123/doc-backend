@@ -85,7 +85,6 @@ var utilsController = {
 
             }
             while (res = reg.exec(source)) {
-                console.log(res.index);
                 result.push({
                     index: res.index + offset,
                     text: this.getTitle(res[textIndex]),
@@ -139,12 +138,58 @@ var utilsController = {
                 for (var i = 0; i < tags.length; i++) {
                     var link = '<a name="' + tags[i].id + '"></a>';
                     source = spliceString(source, tags[i].index + totalOffset, 0, link);
-                    console.log(tags[i].index + totalOffset);
                     totalOffset += link.length;
                 };
-                //console.log(source);
             }
             return source;
+        }
+    },
+    css: {
+        //获取所有页面css
+        cssList: function(source) {
+            var result = [];
+            result = result.concat(this.getCss(/(^|\r\n)<link (.*)>\r\n/g, 2, source)); //<link ...... />   
+            return result;
+        },
+        // 通过reg获取指定标签
+        //*reg:正则 
+        //*index:匹配结果的下标
+        //*source:源  
+        getCss: function(reg, index, source) {
+            var result = [];
+            while (res = reg.exec(source)) {
+                var href = /href="(.*)"/.exec(res[index]);
+                if (href) {
+                    result.push({ 
+                        data: href[1]
+                    });
+                }  　
+            }
+            return result;
+        }
+    },
+    js:{
+        //获取所有页面js
+        jsList:function(source){
+            var result=[];
+            result = result.concat(this.getJs(/(^|\r\n)<script (.*)><\/script>\r\n/g, 2, source)); //<script ...... ></script>   
+            return result;
+        },
+        // 通过reg获取指定标签
+        //*reg:正则 
+        //*index:匹配结果的下标
+        //*source:源  
+        getJs:function(reg, index, source){
+            var result = [];
+            while (res = reg.exec(source)) {
+                var src = /src="(.*)"/.exec(res[index]);
+                if (src) {
+                    result.push({ 
+                        data: src[1]
+                    });
+                }  　
+            }
+            return result;
         }
     }
 }

@@ -2,14 +2,14 @@
  * Module dependencies.
  */
 var fs = require("fs"); 
-var recursive = require('recursive-readdir');
+var _recursive = require('recursive-readdir');
 var resultModule = require('./utils').resultModule;
 
 /**
  * Expose
  */
 var fileController = {
-    read: function(path, next) {
+    read: function(path,type, next) {
         fs.stat(path, function(err, stats) {
             if (err) {
                 next(resultModule(1, err));
@@ -18,7 +18,7 @@ var fileController = {
             if (stats.isFile()) { 
                 //buf = new Buffer(stats.size);
 
-                fs.readFile(path,'utf8',function(err,data){
+                fs.readFile(path,type,function(err,data){
                     if (err) {
                         next(resultModule(11, err));
                         return;
@@ -52,6 +52,27 @@ var fileController = {
                 //         });
                 //     });
                 // });
+            } else {
+                next(resultModule(2, 'path is not a file')); 
+            }
+        });
+    },
+    readBinary:function(path,type,next){
+        fs.stat(path, function(err, stats) {
+            if (err) {
+                next(resultModule(1, err));
+                return;
+            }
+            if (stats.isFile()) {  
+
+                fs.readFile(path,'binary',function(err,data){
+                    if (err) {
+                        next(resultModule(11, err));
+                        return;
+                    } 
+                    next(resultModule(0, '', data));
+                     
+                })  
             } else {
                 next(resultModule(2, 'path is not a file')); 
             }
@@ -106,11 +127,16 @@ var fileController = {
 
         },ignoreReg)
     },
-    countsubFile:function(path,next){
-        recursive(path, function (err, files) { 
+    countsubFile:function(path,next,reg){
+        _recursive(path, function (err, files) { 
             if(err){
                 next(resultModule(1,err));
             }else{
+                if(reg){
+                    files=files.filter(function(i){
+                        return reg.exec(i);
+                    }) 
+                }
                 next(resultModule(0,"",files.length));
             } 
         });
