@@ -1,0 +1,24 @@
+<extends '../layout'>
+    <!--重写content中的内容-->
+    <block 'content'>
+        <link rel="stylesheet" type="text/css" href="/static/page/doc/index/index.css" />
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="/doc"><i class="fa fa-bars"></i>&nbsp;文档分类 </a>
+                </div>
+            </nav>
+        </div>
+        <widget 'breadcrumb/breadcrumb'>
+        <div class="wrapper wrapper-content">
+            <iframe src="javascript:;" data-basesrc="/doc/<%=rootpath%>/viewfile"></iframe>
+        </div> 
+    </block>
+
+    <block 'script'>
+    <script type="text/javascript">
+        var firstLink=document.getElementById('side-menu').getElementsByTagName('a')[0];
+        if(firstLink)
+            document.getElementById('side-menu').getElementsByTagName('a')[0].click();
+    </script>
+    </block>

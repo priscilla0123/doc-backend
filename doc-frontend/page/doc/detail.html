@@ -1,0 +1,83 @@
+<html>
+
+<head>
+    <link href="static/common/css/bootstrap.css" rel="stylesheet">
+    <link href="static/page/doc/detail/detail.css" rel="stylesheet">
+    <style type="text/css">
+    html {
+        padding: 25px;
+    }
+    
+    .wrapper-content {
+        position: absolute;
+        top: 130px;
+        bottom: 500px;
+        width: 100%;
+    }
+    
+    table th {
+        font-weight: bold
+    }
+    
+    table th,
+    table td {
+        padding: 6px 13px;
+        border: 1px solid #ddd
+    }
+    
+    table tr {
+        background-color: #fff;
+        border-top: 1px solid #ccc
+    }
+    
+    table tr:nth-child(2n) {
+        background-color: #f8f8f8
+    }
+    </style>
+    <% links.forEach(function(item){%>
+        <link rel="stylesheet" type="text/css" href="<%=baseUrl + item.data%>" fixed/>
+    <% }); %>
+</head>
+<a name="navline_istart"></a>
+
+<body>
+<% if(data.length){ %>
+    <%-data %>
+<% }else{%>
+    <div class="middle-box text-center animated fadeInRightBig">
+        <h3 class="font-bold">This is page content</h3>
+        <div class="error-desc">
+            You can create file here or choose one from the left part.
+            <br /><a href="index.html" class="btn btn-primary m-t"><i class="fa fa-plus"></i> 新建 </a>
+        </div>
+    </div>
+<% } %>
+    <a name="navline_iend"></a>
+    <a name=""></a>
+    <div class="navLine">
+        <div class="line start">
+            <a href="#navline_istart">
+                <div class="point"></div>
+            </a>
+            <div class="tag">页首</div>
+        </div>
+    <% tags.forEach(function(item){%>
+        <div class="line <% if(item.type=='h3'){ %>  xsmall <% } %> <% if(item.type=='h2'){ %>  small <% } %> ">
+            <a href="#<%=item.id%>">
+                <div class="point"></div>
+            </a>
+            <div class="tag">
+                <%=item.text%>
+            </div>
+        </div>
+    <% }) %> 
+        <div class="line end">
+            <a href="#navline_iend" >
+                <div class="point"></div>
+            </a>
+            <div class="tag">页尾</div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node --harmony server.js",
-    "test": "nodemon --harmony server.js && feather2 release -w -r ../doc-frontend"
+    "test": "feather2 release -r doc-frontend -d dist && nodemon --harmony server.js"
   },
   "repository": {
     "type": "git",
@@ -32,7 +32,7 @@
     "object.assign": "^4.0.4",
     "recursive-readdir": "^2.1.0",
     "serve-favicon": "~2.3.0",
-    "splice-string": "^2.0.0"
+    "splice-string": "^1.0.0"
   },
   "devDependencies": {
     "nodemon": "^1.10.2"

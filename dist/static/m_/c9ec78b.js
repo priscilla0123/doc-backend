@@ -1,0 +1,1 @@
+require.config({"deps":{},"map":{"/page/doc/home/home.js":["static/page/doc/home/home.js"],"/c_/jquery/jquery.js":["components/jquery/jquery.js"]}});

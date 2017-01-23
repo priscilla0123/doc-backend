@@ -1,0 +1,21 @@
+.HeadBlock {
+  position: relative;
+  padding: 40px 20px;
+}
+.HeadBlock .HB_cover {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.4);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: none;
+}
+.HeadBlock .HB_cover li {
+  line-height: 50px;
+  font-size: 22px;
+}
+.HeadBlock:hover .HB_cover {
+  display: block;
+}

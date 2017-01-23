@@ -23,7 +23,7 @@ cmdController = {
                         console.log('git pull end');
                         cb(result(0, '', stdout));
                     } else {
-                        console.log('git pull error:' + stderr);
+                        console.log('git pull error:' + stderr,err);
                         cb(result(1, 'git pull error', stderr));
                     }
                 })

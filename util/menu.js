@@ -32,11 +32,11 @@ var menuController = {
         var _this = this; 
         var MenuList = []; 
          
-        file.getChildren(path, false, function(result) {
+        file.getChildren(path, false, function(result) { 
             if(result.code==0){ 
                 result.data.filter(function(i){ //文件过滤
                     var ext=_path.extname(i.path); 
-                    return ext==".md"||ext==".html"||ext==".txt";
+                    return ext==".md"||ext==".html"||ext==".txt"||i.type=="dir";
                 }).forEach(function(item) { 
                     var Menu = item; 
                     Menu.url = baseUrl + '/' + item.name; 

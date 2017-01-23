@@ -1,0 +1,61 @@
+<!--引入header-->
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon"type="image/x-icon" href="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"> 
+
+    <title>DOC | Markdown</title>
+
+                    <link rel="stylesheet" href="/w_/nav/nav.css" type="text/css" /><link rel="stylesheet" href="/common/css/bootstrap.css" type="text/css" /><link rel="stylesheet" href="/c_/font-awesome/css/font-awesome.css" type="text/css" /><link rel="stylesheet" href="/common/css/animate.css" type="text/css" /><link rel="stylesheet" href="/c_/bootstrap-markdown/css/bootstrap-markdown.min.css" type="text/css" /><link rel="stylesheet" href="/common/css/style.css" type="text/css" /><link rel="stylesheet" href="/w_/header/header.css" type="text/css" /><link rel="stylesheet" href="/w_/footer/footer.css" type="text/css" /><script src="/feather.js"></script><script src="/m_/50b3bfb.js"></script></head>
+
+<body>
+<div id="wrapper">
+    <nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav metismenu" id="side-menu">   
+            <% nav.forEach(function(m, index){ %> 
+            <li>
+                <% if(m.type=='dir'){ %> 
+                    <a class="J_nav_folder" href="javascript:;" data-url="<%= m.url %>"><i class="fa fa-folder"></i> <span class="nav-label"><%= m.name %></span><span class="fa arrow"></span></a> 
+                <% }else{ %> 
+                    <a class="J_nav_file" href="javascript:;" data-url="<%= m.url %>"><i class="fa fa-file-o"></i> <span class="nav-label"><%= m.name %></span></a>
+                <% } %> 
+            </li>
+            <% }) %> 
+            
+        </ul>
+
+    </div>
+</nav><script>require.async('widget/nav/nav.js');</script>
+    
+    <div id="page-wrapper" class="gray-bg">
+
+
+
+    
+<script>require.async('widget/header/header.js');</script>
+
+<!--block占位-->
+<!--BLOCK_START#content--> <!--BLOCK_END-->
+
+<!--引入footer-->
+<div class="footer">
+    <div class="pull-right">
+        Open <strong>YOUR</strong> Mind.
+    </div>
+    <div>
+        <strong>Copyright</strong> BestTeam &copy; 1024-2048
+    </div>
+</div>
+</div>
+</div>
+<script>require.async('widget/footer/footer.js');</script></body>
+
+</html>
+
+
+<!--BLOCK_START#script--><!--BLOCK_END-->

@@ -1,6 +1,7 @@
 /**
  * Module dependencies.
  */
+var _os = require('os');
 var file = require('../util/file');
 var bread = require('../util/utils').bread;
 var nav = require('../util/utils').nav;
@@ -28,7 +29,7 @@ exports.home = function(req, res, next) {
                     data: result.data
                 });
                 if (pullResult.code) {
-                    // to do toast 文档更新失败，请刷新页面
+                    // to do toast '文档更新失败，请刷新页面'
                 }
             } else {
                 console.log(result.msg);
@@ -39,7 +40,13 @@ exports.home = function(req, res, next) {
 //文档分类
 exports.index = function(req, res, next) {
     var root = req.params['rootpath'];
-    menu.get(config.docPath + '/' + root, '/' + root, function(result) {
+    menu.get(config.docPath + '/' + root, '/' + root, function(result) { 
+        for (i in result.data) { 
+            var name=result.data[i].name; 
+            if(name.lastIndexOf('.')>0){
+                result.data[i].name = name.substring(0, name.lastIndexOf('.'));
+            }  
+        }
         res.render('page/doc/index', {
             nav: result.data,
             bread: {
@@ -52,29 +59,27 @@ exports.index = function(req, res, next) {
 };
 //预览
 exports.viewFile = function(req, res, next) {
-    var type='utf8';
+    var type = 'utf8';
     var arg = URL.parse(req.url, true).query;
     var filePath = decodeURIComponent(req.originalUrl).split('/doc/' + req.params['rootpath'] + '/viewfile/')[1];
-    if (filePath) {  
+    if (filePath) {
         var ext = path.extname(filePath);
-        if(ext.indexOf('woff')>=0){
-            type='binary';
+        if (ext.indexOf('woff') >= 0) {
+            type = 'binary';
         }
         filePath = filePath.split('?')[0];
-        file.read(config.docPath + '/' + filePath,type, function(result) {
+        file.read(config.docPath + '/' + filePath, type, function(result) {
             if (result.code == 0) {
-                if(arg.view){//文档文件
+                if (arg.view) { //文档文件
                     fileFilter(filePath, res, result);
-                }
-                else{ //静态文件
-                    ext = ext ? ext.slice(1) : 'unknown'; 
-                    var contentType = mime[ext] || "text/plain"; 
-                    res.writeHead(200, { 'Content-Type': contentType }); 
-                    if(ext.indexOf('woff')>=0){
-                        res.end(result.data,'binary');  
-                    }
-                    else{
-                        res.end(result.data);  
+                } else { //静态文件
+                    ext = ext ? ext.slice(1) : 'unknown';
+                    var contentType = mime[ext] || "text/plain";
+                    res.writeHead(200, { 'Content-Type': contentType });
+                    if (ext.indexOf('woff') >= 0) {
+                        res.end(result.data, 'binary');
+                    } else {
+                        res.end(result.data);
                     }
                 }
             } else {
@@ -119,7 +124,7 @@ exports.getFileCount = function(req, res, next) {
                 msg: result.msg
             });
         }
-    },/(.*).md|(.*).txt|(.*).html/)
+    }, /(.*).md|(.*).txt|(.*).html/)
 }
 exports.getFolderCount = function(req, res, next) {
     var path = req.query.path;
@@ -142,22 +147,33 @@ exports.allMenu = function(req, res, next) {
 };
 
 // 文件显示
-function fileFilter(filePath, res, result) { 
-    var ext = path.extname(filePath).slice(1); 
+function fileFilter(filePath, res, result) {
+    var ext = path.extname(filePath).slice(1);
     switch (ext) {
         case 'md':
-            var tagList = nav.tagList(result.data);
-            var cssList=css.cssList(result.data); 
-            res.render('page/doc/detail', {
-                data: marked.parse(nav.formatContent(tagList, result.data)),
-                tags: tagList,
-                links:cssList,
-                baseUrl:res.req.url.substring(0,res.req.url.lastIndexOf('/'))
-            });
+            if (_os.platform() == 'linux') {
+                var tagList = nav.tagListforLinux(result.data);
+                var cssList = css.cssListforLinux(result.data);
+                res.render('page/doc/detail', {
+                    data: marked.parse(nav.formatContentforLinux(tagList, result.data)),
+                    tags: tagList,
+                    links: cssList,
+                    baseUrl: res.req.url.substring(0, res.req.url.lastIndexOf('/') + 1)
+                });
+            } else {
+                var tagList = nav.tagList(result.data);
+                var cssList = css.cssList(result.data);
+                res.render('page/doc/detail', {
+                    data: marked.parse(nav.formatContent(tagList, result.data)),
+                    tags: tagList,
+                    links: cssList,
+                    baseUrl: res.req.url.substring(0, res.req.url.lastIndexOf('/') + 1)
+                });
+            }
             break;
-        case 'text': 
+        case 'text':
         case 'html':
-        case 'xml': 
+        case 'xml':
         case 'png':
         case 'jpg':
         case 'jpeg':
@@ -165,6 +181,6 @@ function fileFilter(filePath, res, result) {
             res.render('page/doc/plainDetail', {
                 data: result.data
             });
-            break; 
+            break;
     }
 }

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doc | HomePage</title>
+                        <link rel="stylesheet" href="/common/css/bootstrap.css" type="text/css" /><link rel="stylesheet" href="/c_/font-awesome/css/font-awesome.css" type="text/css" /><link rel="stylesheet" href="/common/css/animate.css" type="text/css" /><link rel="stylesheet" href="/c_/bootstrap-markdown/css/bootstrap-markdown.min.css" type="text/css" /><link rel="stylesheet" href="/common/css/style.css" type="text/css" /><link rel="stylesheet" href="/page/doc/home/home.css" type="text/css" /><script src="/feather.js"></script><script src="/m_/c9ec78b.js"></script></head> 
+
+<body class="gray-bg" style="height:auto;padding:10px">
+    <div class='HeadBlock'>
+        <div class="lock-word animated fadeInDown">
+            <span style="position:relative;width:50%;left:25%;color:rgb(84,173,235)">Document</span>
+            <span style="position:relative;width:50%;left:41%;color:rgba(125,195,239,0.7);margin-top:-5%;font-size:120px">Platform</span>
+            <span style="position:absolute;width:10%;left:50%;color:rgb(255,255,255);font-size:78px;top:0">文</span>
+            <span style="position:absolute;width:15%;left:53%;color:rgba(84,173,235,0.4);top:8%;font-size:80px">档</span>
+            <span style="position:absolute;width:15%;left:29%;color:rgb(125,195,239);font-size:150px;top:-29%">平</span>
+            <span style="position:absolute;width:15%;left:35%;color:rgb(200,200,200);font-size:90px;top:30%">台</span> 
+        </div>
+        <div class='HB_cover animated fadeInDown'>
+            <ul style="padding:10px">
+                <li>文档仓库地址：git@git.ipo.com:sunjia032/doc.git；</li>
+                <li>仓库一级目录为文档分类目录，将作为文档入口显示在文档平台首页；</li>
+                <li>目前平台最多支持3级目录，3种文档类型：md,txt,html；</li>
+                <li>为较好地展示文档内容，建议使用markdown作为编写标记，建议使用相对路径引入css，js，img等静态资源。</li>
+            </ul> 
+        </div>
+    </div>
+    
+    <div>
+        <div class="row"> 
+        <% if(data){data.forEach(function(item){ %> 
+            <div class="col-lg-3">
+                <a href="/doc/<%=item.name%>">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5><%=item.name%></h5>
+                        </div>
+                        <div class="ibox-content" data-dir="<%=item.name%>">
+                            <h1 class="no-margins"><small class="filecount"></small><small>个文件</small></h1>
+                            <small><span class="foldercount"></span>个文件夹</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        <% })} %>
+        </div>
+    </div>
+</body>
+<script>
+    require.async('static/page/doc/home/home.js');
+</script>
+</html>

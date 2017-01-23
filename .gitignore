@@ -1,6 +1,5 @@
-/node_modules/*
-/doc-frontend/*
-npm-debug.log
-/views/*
-/doc/*
+node_modules
+npm-debug.log 
+/doc
+
 

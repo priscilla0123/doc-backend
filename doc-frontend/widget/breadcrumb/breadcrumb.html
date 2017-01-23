@@ -1,0 +1,17 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2><%=bread.title%></h2>
+        <ol class="breadcrumb">
+            <% bread.list.forEach(function(b, index){ %> 
+                <% if((bread.list.length-1)==index){ %> 
+                    <li class="active">
+                        <strong><%=b.name%></strong>
+                    </li>  
+                <% }else{ %>
+                <li>
+                    <a href="<%= b.url %>"><%=b.name%></a>
+                </li> 
+            <% }}) %> 
+        </ol>
+    </div> 
+</div>

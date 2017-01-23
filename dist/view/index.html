@@ -1,0 +1,92 @@
+<!--引入header-->
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon"type="image/x-icon" href="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"> 
+
+    <title>DOC | Markdown</title>
+
+                    <link rel="stylesheet" href="/pl_/bigrender/bigrender.css" type="text/css" /><link rel="stylesheet" href="/w_/nav/nav.css" type="text/css" /><link rel="stylesheet" href="/common/css/bootstrap.css" type="text/css" /><link rel="stylesheet" href="/c_/font-awesome/css/font-awesome.css" type="text/css" /><link rel="stylesheet" href="/common/css/animate.css" type="text/css" /><link rel="stylesheet" href="/c_/bootstrap-markdown/css/bootstrap-markdown.min.css" type="text/css" /><link rel="stylesheet" href="/common/css/style.css" type="text/css" /><link rel="stylesheet" href="/w_/header/header.css" type="text/css" /><link rel="stylesheet" href="/w_/footer/footer.css" type="text/css" /><link rel="stylesheet" href="/index.css" type="text/css" /><script src="/feather.js"></script><script src="/m_/d1546d7.js"></script></head>
+
+<body>
+<div id="wrapper">
+    <nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav metismenu" id="side-menu">   
+            <% nav.forEach(function(m, index){ %> 
+            <li>
+                <% if(m.type=='dir'){ %> 
+                    <a class="J_nav_folder" href="javascript:;" data-url="<%= m.url %>"><i class="fa fa-folder"></i> <span class="nav-label"><%= m.name %></span><span class="fa arrow"></span></a> 
+                <% }else{ %> 
+                    <a class="J_nav_file" href="javascript:;" data-url="<%= m.url %>"><i class="fa fa-file-o"></i> <span class="nav-label"><%= m.name %></span></a>
+                <% } %> 
+            </li>
+            <% }) %> 
+            
+        </ul>
+
+    </div>
+</nav><script>require.async('widget/nav/nav.js');</script>
+    
+    <div id="page-wrapper" class="gray-bg">
+
+
+
+    
+<script>require.async('widget/header/header.js');</script>
+
+<!--block占位-->
+
+
+        <section id="main">welcome to feather2.0 ! &nbsp; <a href="javascript:" id="click">click me</a></section>
+    <script>
+    require.async('static/index.js');
+    </script>
+
+    <!--引入pagelet/bigrender/bigrender中的内容，并将其放置在id为pagelet的容器中-->
+    <textarea style="display: none" id="pagelet"><code style="display: none;" id="pagelet_bigrender_bigrender"><section class="bigrender">
+hello, i'm bigrender
+</section><script>require.async('pagelet/bigrender/bigrender.js');</script></code><script>(function(){var elem = document.getElementById("pagelet_bigrender_bigrender");elem.removeAttribute("id");var nls = [];require.async(['static/pagelet.js'].concat(nls), function(Pagelet){Pagelet.init(elem)});})()</script></textarea>
+
+    <script>
+    function $(id){
+        return document.getElementById(id);
+    }
+
+    //可使用jquery的html方法代替
+    require.async('static/pagelet.js', function(Pagelet){
+        $('click').onclick = function(){
+            Pagelet.append($('main'), $('pagelet').value);
+        };
+
+        setTimeout(function(){
+            Pagelet.load('/ajax', function(data){
+                Pagelet.append($('main'), data);
+            });
+        }, 6000);
+    });
+    </script>
+
+
+
+<!--引入footer-->
+<div class="footer">
+    <div class="pull-right">
+        Open <strong>YOUR</strong> Mind.
+    </div>
+    <div>
+        <strong>Copyright</strong> BestTeam &copy; 1024-2048
+    </div>
+</div>
+</div>
+</div>
+<script>require.async('widget/footer/footer.js');</script></body>
+
+</html>
+
+
+<!--BLOCK_START#script--><!--BLOCK_END-->

@@ -1,0 +1,1 @@
+require.config({"deps":{},"map":{"/w_/footer/footer.js":["widget/footer/footer.js"]}});

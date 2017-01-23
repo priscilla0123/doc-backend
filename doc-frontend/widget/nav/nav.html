@@ -1,0 +1,17 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav metismenu" id="side-menu">   
+            <% nav.forEach(function(m, index){ %> 
+            <li>
+                <% if(m.type=='dir'){ %> 
+                    <a class="J_nav_folder" href="javascript:;" data-url="<%= m.url %>"><i class="fa fa-folder"></i> <span class="nav-label"><%= m.name %></span><span class="fa arrow"></span></a> 
+                <% }else{ %> 
+                    <a class="J_nav_file" href="javascript:;" data-url="<%= m.url %>"><i class="fa fa-file-o"></i> <span class="nav-label"><%= m.name %></span></a>
+                <% } %> 
+            </li>
+            <% }) %> 
+            
+        </ul>
+
+    </div>
+</nav>

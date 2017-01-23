@@ -83,8 +83,8 @@ var utilsController = {
                     type = 'h1';
                     break;
 
-            }
-            while (res = reg.exec(source)) {
+            } 
+            while (res = reg.exec(source)) { 
                 result.push({
                     index: res.index + offset,
                     text: this.getTitle(res[textIndex]),
@@ -116,13 +116,25 @@ var utilsController = {
         tagList: function(source) {
             var result = [];
             var l = 0;
-            result = result.concat(this.getTag(/(^|\r\n)### (.*)\r\n/g, 2, 0, source)); //h3 ### 
+            result = result.concat(this.getTag(/(^|\r\n)### (.*)\r\n?/g, 2, 0, source)); //h3 ### 
             l = result.length;
             result = result.concat(this.getTag(/(^|\r\n)## (.*)\r\n/g, 2, 1, source)); //h2 ## 
             result = result.concat(this.getTag(/(^|\r\n)(.*)\r\n-{2,}/g, 2, 2, source, result.length - l)); //h2 -- 
             l = result.length;
             result = result.concat(this.getTag(/(^|\r\n)# (.*)\r\n/g, 2, 3, source)); //h1 # 
             result = result.concat(this.getTag(/(^|\r\n)(.*)\r\n={2,}/g, 2, 4, source, result.length - l)); //h1 == 
+            return result.sort(this.sortTag());
+        },
+        tagListforLinux:function(source){
+            var result = [];
+            var l = 0;
+            result = result.concat(this.getTag(/(^|\n)### (.*)\n?/g, 2, 0, source)); //h3 ### 
+            l = result.length;
+            result = result.concat(this.getTag(/(^|\n)## (.*)\n/g, 2, 1, source)); //h2 ## 
+            result = result.concat(this.getTag(/(^|\n)(.*)\n-{2,}/g, 2, 2, source, result.length - l)); //h2 -- 
+            l = result.length;
+            result = result.concat(this.getTag(/(^|\n)# (.*)\n/g, 2, 3, source)); //h1 # 
+            result = result.concat(this.getTag(/(^|\n)(.*)\n={2,}/g, 2, 4, source, result.length - l)); //h1 == 
             return result.sort(this.sortTag());
         },
         //在tag位置添加link
@@ -142,13 +154,33 @@ var utilsController = {
                 };
             }
             return source;
+        },
+        formatContentforLinux: function(tags, source) {
+            if (tags.length) {
+                //如果文档第一个tag不以换行符开始
+                if (!/^\n/.test(source) && tags[0].index == 6) {
+                    tags[0].index = 4;
+                }
+                var totalOffset = 0;
+                for (var i = 0; i < tags.length; i++) {
+                    var link = '<a name="' + tags[i].id + '"></a>';
+                    source = spliceString(source, tags[i].index + totalOffset, 0, link);
+                    totalOffset += link.length;
+                };
+            }
+            return source;
         }
     },
     css: {
         //获取所有页面css
         cssList: function(source) {
             var result = [];
-            result = result.concat(this.getCss(/(^|\r\n)<link (.*)>\r\n/g, 2, source)); //<link ...... />   
+            result = result.concat(this.getCss(/(^|\r\n)<link (.*?)>/g, 2, source)); //<link ...... />   
+            return result;
+        },
+        cssListforLinux: function(source) {
+            var result = [];
+            result = result.concat(this.getCss(/(^|\n)<link (.*?)>/g, 2, source)); //<link ...... />   
             return result;
         },
         // 通过reg获取指定标签
@@ -173,6 +205,11 @@ var utilsController = {
         jsList:function(source){
             var result=[];
             result = result.concat(this.getJs(/(^|\r\n)<script (.*)><\/script>\r\n/g, 2, source)); //<script ...... ></script>   
+            return result;
+        },
+        jsListforLinux:function(source){
+            var result=[];
+            result = result.concat(this.getJs(/(^|\n)<script (.*)><\/script>\n/g, 2, source)); //<script ...... ></script>   
             return result;
         },
         // 通过reg获取指定标签
