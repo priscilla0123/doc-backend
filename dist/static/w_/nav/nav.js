@@ -5,6 +5,9 @@ require.async('components/jquery/jquery.js', function($) {
             this.bindevent();
             this.$nav=$('.nav');
             this.frameBaseUrl=$('iframe').attr('data-basesrc'); 
+            var firstLink=$('#side-menu').find('a:eq(0)');
+            if(firstLink)
+                firstLink.click();
         },
         bindevent: function() {
             var _this=this;
