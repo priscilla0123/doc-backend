@@ -1,3 +1,3 @@
-<script>require.config({"deps":{},"map":{"/pagelet.js":["static/pagelet.js"],"/pl_/ajax/ajax.css":["pagelet/ajax/ajax.css"]}})</script><code style="display: none;" id="pagelet_ajax_ajax"><section id="ajax">
+<script>require.config({"deps":{},"map":{"/pagelet.js":["static/pagelet.js"],"/pl_/ajax/ajax.css":["pagelet/ajax/ajax.css"]}})</script><textarea style="display: none;" id="pagelet_ajax_ajax"><section id="ajax">
 hello, i'm ajax
-</section></code><script>(function(){var elem = document.getElementById("pagelet_ajax_ajax");elem.removeAttribute("id");var nls = ["pagelet/ajax/ajax.css"];require.async(['static/pagelet.js'].concat(nls), function(Pagelet){Pagelet.init(elem)});})()</script>
+</section></textarea><script>(function(){var elem = document.getElementById("pagelet_ajax_ajax");elem.value = elem.value.replace(/<\\\\\/textarea>/g, '</textarea>');elem.removeAttribute("id");var nls = ["pagelet/ajax/ajax.css"];require.async(['static/pagelet.js'].concat(nls), function(Pagelet){Pagelet.init(elem)});})()</script>

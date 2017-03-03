@@ -22,6 +22,7 @@ var path = require('path');
  */
 //home page
 exports.home = function(req, res, next) {
+    console.log('home');
     commond.pull(config.docPath, 'master', function(pullResult) {
         file.getChildFolders(config.docPath, false, function(result) {
             if (result.code == 0) {
@@ -40,6 +41,7 @@ exports.home = function(req, res, next) {
 //文档分类
 exports.index = function(req, res, next) {
     var root = req.params['rootpath'];
+    console.log('index');
     menu.get(config.docPath + '/' + root, '/' + root, function(result) { 
         for (i in result.data) { 
             var name=result.data[i].name; 

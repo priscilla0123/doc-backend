@@ -48,9 +48,9 @@
     </script>
 
     <!--引入pagelet/bigrender/bigrender中的内容，并将其放置在id为pagelet的容器中-->
-    <textarea style="display: none" id="pagelet"><code style="display: none;" id="pagelet_bigrender_bigrender"><section class="bigrender">
+    <textarea style="display: none;" id="pagelet"><textarea style="display: none;" id="pagelet_bigrender_bigrender"><section class="bigrender">
 hello, i'm bigrender
-</section><script>require.async('pagelet/bigrender/bigrender.js');</script></code><script>(function(){var elem = document.getElementById("pagelet_bigrender_bigrender");elem.removeAttribute("id");var nls = [];require.async(['static/pagelet.js'].concat(nls), function(Pagelet){Pagelet.init(elem)});})()</script></textarea>
+</section><script>require.async('pagelet/bigrender/bigrender.js');</script><\/textarea><script>(function(){var elem = document.getElementById("pagelet_bigrender_bigrender");elem.value = elem.value.replace(/<\\\\\/textarea>/g, '<\/textarea>');elem.removeAttribute("id");var nls = [];require.async(['static/pagelet.js'].concat(nls), function(Pagelet){Pagelet.init(elem)});})()</script></textarea><script>(function(){var elem = document.getElementById('pagelet');elem.value = elem.value.replace(/<\\\/textarea>/g, '</textarea>');})();</script>
 
     <script>
     function $(id){
